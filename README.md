@@ -1,4 +1,4 @@
-# jev-doc-router
+# jev_doc_router
 
 A Spring Boot **PDF question-answering assistant** that routes each question to **RAG** (retrieve the most relevant chunks) or **CAG** (read the full cached document), using **Jev** routing decisions or local rules. Ask through a single endpoint: `POST /api/chat/auto`.
 
