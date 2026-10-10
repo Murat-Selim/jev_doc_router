@@ -21,11 +21,12 @@ spring:
         format_sql: true
 
 ai:
-  provider: ${AI_PROVIDER:mock}
-  openai:
-    api-key: ${OPENAI_API_KEY:}
-    model: ${OPENAI_MODEL:gpt-6.1-sol}
-    max-output-tokens: ${OPENAI_MAX_OUTPUT_TOKENS:4096}
+  provider: ${AI_PROVIDER:qwen}
+  qwen:
+    api-key: ${QWEN_API_KEY:${DOUBLEWORD_API_KEY:}}
+    base-url: ${QWEN_BASE_URL:https://api.doubleword.ai/v1}
+    model: ${QWEN_MODEL:Qwen/Qwen3-VL-30B-A3B-Instruct-FP8}
+    max-output-tokens: ${QWEN_MAX_OUTPUT_TOKENS:4096}
   cag:
     max-context-tokens: ${CAG_MAX_CONTEXT_TOKENS:50000}
   routing:

@@ -18,6 +18,7 @@ class DocumentChatClientConfigurationTest {
             .withConfiguration(AutoConfigurations.of(TaskExecutionAutoConfiguration.class))
             .withBean(RestClient.Builder.class, RestClient::builder)
             .withUserConfiguration(MockDocumentChatClient.class, OpenAiDocumentChatClient.class,
+                    QwenDocumentChatClient.class,
                     InMemoryCagCacheProvider.class);
 
     @Test
@@ -36,6 +37,20 @@ class DocumentChatClientConfigurationTest {
                     assertThat(app).hasSingleBean(DocumentChatClient.class);
                     assertThat(app.getBean(DocumentChatClient.class)).isInstanceOf(OpenAiDocumentChatClient.class);
                 });
+    }
+
+    @Test
+    void qwenMustBeExplicitlyEnabled() {
+        context.withPropertyValues("ai.provider=qwen", "ai.qwen.api-key=test-placeholder")
+                .run(app -> {
+                    assertThat(app).hasSingleBean(DocumentChatClient.class);
+                    assertThat(app.getBean(DocumentChatClient.class)).isInstanceOf(QwenDocumentChatClient.class);
+                });
+    }
+
+    @Test
+    void missingQwenCredentialsFailConfiguration() {
+        context.withPropertyValues("ai.provider=qwen").run(app -> assertThat(app).hasFailed());
     }
 
     @Test

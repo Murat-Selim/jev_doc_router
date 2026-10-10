@@ -35,3 +35,11 @@ build/
 ### Environment secrets ###
 .env
 .env.local
+
+### Claude Code (local) ###
+.claude/
+
+### Local notes ###
+CAG_Integration_Minimal.md
+Progress.md
+spring_boot_basic_rag_project_context_devs_style.md

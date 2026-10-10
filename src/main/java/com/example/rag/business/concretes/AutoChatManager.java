@@ -76,13 +76,19 @@ public class AutoChatManager implements AutoChatService {
             return rag(request, decision.source(), "JEV_SELECTED_RAG", decision.confidence());
         }
         // Seçimde okunan snapshot kullanılır; aradaki refresh başka bir bağlamı seçtirmemeli.
+        String reason = "jev".equals(decision.source()) ? "JEV_SELECTED_CAG" : "READY_COMPACT_CONTEXT";
+        logRoute(Strategy.CAG, decision.source(), reason, decision.confidence());
         var response = cagService.ask(request, cache);
-        return new AutoChatResponse(response.answer(), Strategy.CAG, decision.source(),
-                "jev".equals(decision.source()) ? "JEV_SELECTED_CAG" : "READY_COMPACT_CONTEXT",
+        return new AutoChatResponse(response.answer(), Strategy.CAG, decision.source(), reason,
                 decision.confidence());
     }
 
     private AutoChatResponse rag(ChatRequest request, String source, String reason, Double confidence) {
+        logRoute(Strategy.RAG, source, reason, confidence);
         return new AutoChatResponse(ragService.ask(request).answer(), Strategy.RAG, source, reason, confidence);
+    }
+
+    private void logRoute(Strategy strategy, String source, String reason, Double confidence) {
+        log.info("Routing: strategy={}, source={}, reason={}, confidence={}", strategy, source, reason, confidence);
     }
 }

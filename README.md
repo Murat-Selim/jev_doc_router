@@ -114,6 +114,12 @@ CHAT_ROUTING_PROVIDER=jev
 TYPESAFE_API_KEY=your_key_here
 JEV_MODEL=jev-latest
 
+# Or use a Qwen model via Doubleword (OpenAI-compatible Chat Completions) for real answers:
+AI_PROVIDER=qwen
+QWEN_API_KEY=your_key_here           # DOUBLEWORD_API_KEY is accepted as an alias
+QWEN_MODEL=Qwen/Qwen3-VL-30B-A3B-Instruct-FP8
+QWEN_BASE_URL=https://api.doubleword.ai/v1   # Any OpenAI-compatible endpoint works
+
 # Enable real answers and provider-side CAG prewarm explicitly:
 AI_PROVIDER=openai
 OPENAI_API_KEY=your_key_here
