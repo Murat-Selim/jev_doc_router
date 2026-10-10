@@ -16,10 +16,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.rag.business.abstracts.EmbeddingService;
 import com.example.rag.dataAccess.abstracts.DocumentChunkRepository;
+import com.example.rag.core.ai.model.DocumentChatClient;
+import com.example.rag.core.ai.prompt.CagPromptBuilder;
 
 @ExtendWith(MockitoExtension.class)
 class RagManagerTest {
@@ -32,6 +35,12 @@ class RagManagerTest {
 
     @Mock
     private DocumentChunkRepository repository;
+
+    @Mock
+    private DocumentChatClient chatClient;
+
+    @Spy
+    private CagPromptBuilder promptBuilder = new CagPromptBuilder();
 
     @InjectMocks
     private RagManager ragManager;
@@ -61,15 +70,18 @@ class RagManagerTest {
     }
 
     @Test
-    void askReturnsMockAnswerBasedOnRetrievedContext() {
+    void askSendsRetrievedContextAndQuestionToModel() {
         when(embeddingService.embed(anyString())).thenReturn("[0.1,0.2]");
         when(repository.findSimilarChunks(anyString(), anyInt()))
                 .thenReturn(List.of(chunk("Yıllık izin 14 gündür.")));
+        when(chatClient.answer("Question:\nYıllık izin?", "Yıllık izin 14 gündür.", null))
+                .thenReturn("Yıllık izin 14 gündür.");
 
         var response = ragManager.ask(new com.example.rag.business.requests.chatRequest.ChatRequest("Yıllık izin?"));
 
         assertTrue(response.answer().contains("Yıllık izin 14 gündür."));
         verify(repository).findSimilarChunks("[0.1,0.2]", 3);
+        verify(chatClient).answer("Question:\nYıllık izin?", "Yıllık izin 14 gündür.", null);
     }
 
     @Test

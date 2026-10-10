@@ -12,9 +12,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-import com.example.rag.business.abstracts.RagService;
+import com.example.rag.business.abstracts.AutoChatService;
 import com.example.rag.business.requests.chatRequest.ChatRequest;
-import com.example.rag.business.responses.chatResponse.ChatResponse;
+import com.example.rag.business.responses.chatResponse.AutoChatResponse;
 
 @RestController
 @RequestMapping("/api/chat")
@@ -22,12 +22,14 @@ import com.example.rag.business.responses.chatResponse.ChatResponse;
 @Tag(name = "Chat", description = "Document-based question answering")
 public class ChatController {
 
-    private final RagService ragService;
+    private final AutoChatService autoChatService;
 
-    @PostMapping
-    @Operation(summary = "Ask a question", description = "Answers a question using uploaded document context")
-    public ResponseEntity<ChatResponse> ask(@Valid @RequestBody ChatRequest request) {
-        return ResponseEntity.ok(ragService.ask(request));
+    @PostMapping("/auto")
+    @Operation(summary = "Ask with automatic RAG/CAG routing",
+            description = "Selects RAG or CAG using context readiness, size and optional Jev decisions; "
+                    + "returns the selected strategy, decision source, reason and routing confidence")
+    public ResponseEntity<AutoChatResponse> askAutomatically(@Valid @RequestBody ChatRequest request) {
+        return ResponseEntity.ok(autoChatService.ask(request));
     }
 
 }

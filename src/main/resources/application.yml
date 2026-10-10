@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: spring-rag-assistant
 
@@ -17,3 +19,19 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+ai:
+  provider: ${AI_PROVIDER:mock}
+  openai:
+    api-key: ${OPENAI_API_KEY:}
+    model: ${OPENAI_MODEL:gpt-6.1-sol}
+    max-output-tokens: ${OPENAI_MAX_OUTPUT_TOKENS:4096}
+  cag:
+    max-context-tokens: ${CAG_MAX_CONTEXT_TOKENS:50000}
+  routing:
+    provider: ${CHAT_ROUTING_PROVIDER:rules}
+    max-cag-context-tokens: ${AUTO_CAG_MAX_CONTEXT_TOKENS:8000}
+    min-confidence: ${JEV_MIN_CONFIDENCE:0.6}
+    jev:
+      api-key: ${TYPESAFE_API_KEY:${JEV_API_KEY:${JEVAPIKEY:}}}
+      model: ${JEV_MODEL:jev-latest}

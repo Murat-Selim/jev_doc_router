@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import com.example.rag.core.exceptions.types.BusinessException;
+import com.example.rag.core.exceptions.types.AiProviderException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -38,6 +39,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<Object> handleDatabase(DataAccessException ex) {
         return build(HttpStatus.INTERNAL_SERVER_ERROR, "Database operation failed.");
+    }
+
+    @ExceptionHandler(AiProviderException.class)
+    public ResponseEntity<Object> handleAiProvider(AiProviderException ex) {
+        return build(HttpStatus.BAD_GATEWAY, ex.getMessage());
     }
 
     @ExceptionHandler(IllegalStateException.class)

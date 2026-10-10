@@ -309,10 +309,10 @@ PostgreSQL + pgvector
 
 # 5. Chat / RAG Flow
 
-Endpoint:
+Endpoint (güncel: RAG/CAG otomatik seçilir):
 
 ```http
-POST /api/chat
+POST /api/chat/auto
 ```
 
 Request:
@@ -515,7 +515,7 @@ Overlap: 100
 - [x] SpringDoc OpenAPI ekle
 - [x] Swagger UI aktif et
 - [x] `/api/documents` dokümante et
-- [x] `/api/chat` dokümante et
+- [x] `/api/chat/auto` dokümante et (`/api/chat` ve `/api/chat/cag` kaldırıldı)
 
 ## Phase 10 — Testing
 

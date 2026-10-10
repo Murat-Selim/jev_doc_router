@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +26,7 @@ public class DocumentsController {
     private final DocumentService documentService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Upload a PDF", description = "Extracts, chunks and embeds a PDF document")
     public ResponseEntity<DocumentUploadResponse> upload(@RequestPart("file") MultipartFile file) {
         return ResponseEntity.status(HttpStatus.CREATED).body(documentService.upload(file));
