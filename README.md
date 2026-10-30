@@ -221,3 +221,7 @@ Example routing metadata in default local mode (the actual answer is a labeled m
 - RAG retrieval still uses deterministic mock embeddings; semantic embedding integration is a separate step. CAG does not use embeddings.
 - `AI_PROVIDER=mock` returns a clearly labeled preview of the context; it does not generate real answers or create provider-side KV cache.
 - Local cache snapshots and refresh serialization are scoped to a single application instance. Multiple instances need coordinated knowledge-base invalidation.
+
+## License
+
+No repository-wide license file is currently declared. Keep third-party dependency licenses and notices intact when working with this project.
